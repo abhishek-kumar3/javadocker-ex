@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.docker.example.dto.EmployeeDto;
+import com.docker.example.dto.EmployeeRequest;
 import com.docker.example.entity.Employee;
 import com.docker.example.repository.EmployeeRepository;
 
@@ -50,10 +51,10 @@ public class EmployeeController {
 	}
 
 	@PostMapping
-	public EmployeeDto saveEployeeDetail(@RequestBody EmployeeDto requestDto) {
+	public EmployeeDto saveEployeeDetail(@RequestBody EmployeeRequest requestDto) {
 		Employee emp = modelMapper.map(requestDto, Employee.class);
-		employeeRepository.save(emp);
-		return requestDto;
+		Employee savedEmployee = employeeRepository.save(emp);
+		return modelMapper.map(savedEmployee, EmployeeDto.class);
 	}
 
 	private void createLinks(List<EmployeeDto> list) {
